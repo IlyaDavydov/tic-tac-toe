@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'logo-font'; 
+    src: url('logo-font.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'main-font'; 
+    src: url('main-font.ttf') format('opentype');
+}
+
+body {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* LOGO & HEADER */
+
+#logo {
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    left: 23%;
+    top: 1%;
+}
+
+#logo1, #logo2, #logo3 {
+    font-family: 'logo-font', sans-serif;
+    display: inline-block;
+    color: #b4cd37;
+    -webkit-text-stroke-width: 10px; 
+    -webkit-text-stroke-color: #f000d0; 
+    position: absolute; 
+    font-size: 200px; 
+}
+
+#logo1 {
+    left: 37%;
+    top: -23%;
+}
+
+#logo2 {
+    left: 55%;
+    top: -21%;
+}
+
+#logo3 {
+    left: 73%;
+    top: -19%;
+}
+
+/* MAIN CONTENT */
+
+.content {
+    margin-top: 200px;
+    display: flex;
+    align-items: center;
+}
+
+.content .grid {
+    display: grid;
+    height: 400px;
+    width: 400px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px;
+    border: 10px solid #b4cd37;
+    border-radius: 20px;
+}
+
+.content .grid * {
+    background-color: #f000d0;
+    border-radius: 15px;
+}
+
+.content .grid div:hover {
+    transform: scale(0.9);
+}
+
+.content .left {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 100px;
+    border: 10px solid #f000d0;
+    border-radius: 20px;
+    margin-right: 100px;
+}
+
+.content .right {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    width: 100px;
+    border: 10px solid #b4cd37;
+    border-radius: 20px;
+    margin-left: 100px;
+}
+
+/* PLAYER CARD */
+
+.left, .right {
+    color: #f000d0;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+.right {
+    color: #b4cd37;
+    background-color: #f000d0;
+}
+
+.left {
+    background-color: #b4cd37;
+}
+
+.left img, .right img {
+    height: 75px;
+    width: 75px;
+}
+
+.left p, .right p {
+    font-size: 22px;
+    font-family: 'main-font', sans-serif;
+}
+
+.background {
+    position: absolute;
+    height: 800px;
+    width: 800px;
+    left: -5%;
+    transform: rotate(-135deg);
+    z-index: -1;
+    border: 10px solid #f000d0;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.background-2 {
+    position: absolute;
+    height: 800px;
+    width: 800px;
+    left: 55%;
+    top: -5%;
+    transform: rotate(45deg);
+    z-index: -1;
+    border: 10px solid #b4cd37;
+    border-radius: 20px;
+    padding: 10px;
+}
+
