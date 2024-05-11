@@ -1,3 +1,9 @@
+const sleep = ms => {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(), ms);
+    })
+}
+
 /* GAME BOARD */ 
 const gameBoard = (function() {
     let moves = 0;
@@ -280,7 +286,7 @@ function getNumberOfFreeFields(array) {
 }
 
 /* MOVE */
-function move(index, player) {
+function moveAI(index, player) {
     while (gameBoard.getBoardArray()[index] !== '-') {
         index = (index + 1) % gameBoard.getBoardArray().length; 
     }
@@ -289,53 +295,80 @@ function move(index, player) {
     field.textContent = player.marker;
     resizeElement(field);
     gameBoard.changeBoardArray(index, player.marker);
+    if (combination(player)) {
+        player.setWin(true);
+    }
 }
 
-/*let lastPlayerChoice = 5;
-const fields = document.querySelectorAll(".grid div");
-fields.forEach(field => {
-    field.addEventListener("click", function() {
-        lastPlayerChoice = parseInt(field.className.substring(5, 6));
-        let index = lastPlayerChoice;
-        if (gameBoard.getBoardArray()[index] !== '-') {
-            return;
-        }
-        const string = `.grid-${index} p`;
-        const fieldContainer = document.querySelector(string);
-        fieldContainer.textContent = player.marker;
-        resizeElement(fieldContainer);
-        gameBoard.changeBoardArray(index, player.marker);
-        return;
-    });   
-});*/
+function movePlayer(player) {
+    const gridNow = document.querySelector(".grid");
+    let eventPromise = new Promise((resolve, reject) => {
+        const eventListener = (event) => {
+            const index = event.target.className.substring(5, 6);
+            const string = `.grid-${index} p`;
+            const field = document.querySelector(string);
+            field.textContent = player.marker;
+            resizeElement(field);
+            gameBoard.changeBoardArray(index, player.marker);
+            resolve();
+            gridNow.removeEventListener('click', eventListener);
+        };
+        gridNow.addEventListener('click', eventListener);
+    });
+    eventPromise.then(() => {
+        if (combination(player)) {
+            player.setWin(true);
+        } 
+    });
+    return eventPromise;
+}
 
 /* GAME PROCESS */
 function gameProcess() {
     /* initially dates*/
     const player1 = createPlayer('Hulk', 'X', 'Player');
-    const player2 = createPlayer('Danny', 'O', 'AI');
+    const player2 = createPlayer('Danny', 'O', 'Player');
     const left = document.querySelector(".left");
     const right = document.querySelector(".right");
-    let xMove = false;
+    let xMove = true;
     /* game loop */
     function playTurnAIvAI() {
         if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
             if (xMove) {
-                move(getRandomNumber(), player1);
-                console.log(gameBoard.getBoardArray());
-                if (combination(player1)) {
-                    player1.setWin(true);
-                }
-                xMove = false;
+                setTimeout(() => {
+                    const index = getRandomNumber();
+                    moveAI(index, player1);
+                    xMove = false;
+                    playTurnAIvAI();
+                }, 500);
             } else {
-                move(getRandomNumber(), player2);
-                console.log(gameBoard.getBoardArray());
-                if (combination(player2)) {
-                    player2.setWin(true);
-                }
-                xMove = true;
+                setTimeout(() => {
+                    const index = getRandomNumber();
+                    moveAI(index, player2);
+                    xMove = true;
+                    playTurnAIvAI();
+                }, 500);
             }
-            setTimeout(playTurnAIvAI(), 1500);
+        } else {
+            console.log(resultOfTheGame(player1, player2));
+        }
+    }
+    
+    function playTurnPlayervAI() {
+        if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
+            if (xMove) {
+                movePlayer(player1).then(() => {
+                    xMove = false;
+                    playTurnPlayervAI();
+                });
+            } else {
+                setTimeout(() => {
+                    const index = getRandomNumber();
+                    moveAI(index, player2);
+                    xMove = true;
+                    playTurnPlayervAI();
+                }, 500);
+            }
         } else {
             console.log(resultOfTheGame(player1, player2));
         }
@@ -344,35 +377,74 @@ function gameProcess() {
     function playTurnPlayervAI() {
         if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
             if (xMove) {
-                /*while (movePlayer(player1) === "problem") {
-                    movePlayer(player1);
-                }*/
-                move(lastPlayerChoice, player1);
-                console.log("работает)");
-                if (combination(player1)) {
-                    player1.setWin(true);
-                }
-                xMove = false;
+                movePlayer(player1).then(() => {
+                    xMove = false;
+                    playTurnPlayervAI();
+                });
             } else {
-                move(getRandomNumber(), player2);
-                console.log("обаа");
-                if (combination(player2)) {
-                    player2.setWin(true);
-                }
-                xMove = true;
+                setTimeout(() => {
+                    const index = getRandomNumber();
+                    moveAI(index, player2);
+                    xMove = true;
+                    playTurnPlayervAI();
+                }, 500);
+            }
+        } else {
+            console.log(resultOfTheGame(player1, player2));
+        }
+    }
+
+    function playTurnAIvPlayer() {
+        if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
+            if (xMove) {
+                setTimeout(() => {
+                    const index = getRandomNumber();
+                    moveAI(index, player1);
+                    xMove = false;
+                    playTurnAIvPlayer();
+                }, 500);
+            } else {
+                movePlayer(player2).then(() => {
+                    xMove = true;
+                    playTurnAIvPlayer();
+                });
+            }
+        } else {
+            console.log(resultOfTheGame(player1, player2));
+        }
+    }
+
+    function playTurnPlayervPlayer() {
+        if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
+            if (xMove) {
+                movePlayer(player1).then(() => {
+                    xMove = false;
+                    playTurnPlayervPlayer();
+                });
+            } else {
+                movePlayer(player2).then(() => {
+                    xMove = true;
+                    playTurnPlayervPlayer();
+                });
             }
         } else {
             console.log(resultOfTheGame(player1, player2));
         }
     }
     
+       
+    
     if (player1.type === "AI" && player2.type === "AI") {
-        console.log("AIAI");
         playTurnAIvAI();
     }
     else if (player1.type === "Player" && player2.type === "AI") {
-        console.log("PlayerAI");
         playTurnPlayervAI();
+    }
+    else if (player1.type === "AI" && player2.type === "Player") {
+        playTurnAIvPlayer();
+    }
+    else if (player1.type === "Player" && player2.type === "Player") {
+        playTurnPlayervPlayer();
     }
 }
 
