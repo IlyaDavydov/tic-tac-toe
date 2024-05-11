@@ -28,7 +28,7 @@ body {
     height: 200px;
     width: 200px;
     position: absolute;
-    left: 23%;
+    left: 18%;
     top: 1%;
 }
 
@@ -43,17 +43,17 @@ body {
 }
 
 #logo1 {
-    left: 37%;
+    left: 32%;
     top: -23%;
 }
 
 #logo2 {
-    left: 55%;
+    left: 50%;
     top: -21%;
 }
 
 #logo3 {
-    left: 73%;
+    left: 69%;
     top: -19%;
 }
 
@@ -77,13 +77,34 @@ body {
     border-radius: 20px;
 }
 
-.content .grid * {
+.grid div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 160px;
+    color: #b4cd37;
+    font-family: 'main-font', sans-serif;
+    overflow: hidden;
+}
+
+.grid div p {
+    transition: transform 1s;
+}
+
+.resize {
+    transform: scale(0.6);
+}
+.content .grid div {
     background-color: #f000d0;
     border-radius: 15px;
 }
 
 .content .grid div:hover {
     transform: scale(0.9);
+}
+
+.content .left:hover, .content .right:hover, #logo:hover, #logo1:hover, #logo2:hover, #logo3:hover {
+    transform: scale(1.2);
 }
 
 .content .left {
@@ -161,3 +182,38 @@ body {
     padding: 10px;
 }
 
+/* JUMP ANIMATION */
+
+@keyframes jump {
+    0% {
+      transform: translateY(0); 
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0); 
+    }
+  }
+  
+  .jumping {
+    animation: jump 0.5s infinite; 
+  }
+
+  /* MISTAKE ANIMATION */
+
+  @keyframes changeColor {
+    0% {
+        background-color: #f000d0; 
+    }
+    50% {
+        background-color: red; 
+    }
+    100% {
+        background-color: #f000d0; 
+    }
+}
+
+.mistake {
+    animation: changeColor 1s forwards;
+}
