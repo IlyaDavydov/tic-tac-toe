@@ -7,7 +7,7 @@ const sleep = ms => {
 /* GAME BOARD */ 
 const gameBoard = (function() {
     let moves = 0;
-    const boardArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+    let boardArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
     const getBoardArray = () => {
         return boardArray;
     }
@@ -15,14 +15,18 @@ const gameBoard = (function() {
         boardArray[index] =  marker;
         moves++;
     }
+    const resetArray = () => {
+        boardArray = ['-', '-', '-', '-', '-', '-', '-', '-', '-'];
+    }
     return {
         getBoardArray,
-        changeBoardArray
+        changeBoardArray,
+        resetArray
     };
 })();
 
 /* PLAYER */ 
-function createPlayer(name, marker, type) {
+function createPlayer(name, marker, type, score) {
     let win = false; 
     const getWin = () => {
         return win;
@@ -34,6 +38,7 @@ function createPlayer(name, marker, type) {
         name,
         marker,
         type,
+        score,
         getWin,
         setWin 
     };
@@ -200,34 +205,91 @@ function combination(player) {
 }
 
 /* DEFINE RESULT OF THE GAME */
-const grid0 = document.querySelector(".grid-0");
-const grid1 = document.querySelector(".grid-1");
-const grid2 = document.querySelector(".grid-2");
-const grid3 = document.querySelector(".grid-3");
-const grid4 = document.querySelector(".grid-4");
-const grid5 = document.querySelector(".grid-5");
-const grid6 = document.querySelector(".grid-6");
-const grid7 = document.querySelector(".grid-7");
-const grid8 = document.querySelector(".grid-8");
-const grid0P = document.querySelector(".grid-0 p");
-const grid1P = document.querySelector(".grid-1 p");
-const grid2P = document.querySelector(".grid-2 p");
-const grid3P = document.querySelector(".grid-3 p");
-const grid4P = document.querySelector(".grid-4 p");
-const grid5P = document.querySelector(".grid-5 p");
-const grid6P = document.querySelector(".grid-6 p");
-const grid7P = document.querySelector(".grid-7 p");
-const grid8P = document.querySelector(".grid-8 p");
 
 const resultOfTheGame = (player1, player2) => {
+    const grid0 = document.querySelector(".grid-0");
+    const grid1 = document.querySelector(".grid-1");
+    const grid2 = document.querySelector(".grid-2");
+    const grid3 = document.querySelector(".grid-3");
+    const grid4 = document.querySelector(".grid-4");
+    const grid5 = document.querySelector(".grid-5");
+    const grid6 = document.querySelector(".grid-6");
+    const grid7 = document.querySelector(".grid-7");
+    const grid8 = document.querySelector(".grid-8");
+    const grid0P = document.querySelector(".grid-0 p");
+    const grid1P = document.querySelector(".grid-1 p");
+    const grid2P = document.querySelector(".grid-2 p");
+    const grid3P = document.querySelector(".grid-3 p");
+    const grid4P = document.querySelector(".grid-4 p");
+    const grid5P = document.querySelector(".grid-5 p");
+    const grid6P = document.querySelector(".grid-6 p");
+    const grid7P = document.querySelector(".grid-7 p");
+    const grid8P = document.querySelector(".grid-8 p");
+    const winner = document.querySelector(".result p");
+    const resultImage = document.querySelector(".result img");
+    const resultGrid = document.querySelector(".result");
+    const ngb = document.querySelector(".result .new-game");
+    const rb = document.querySelector(".result .reset-score");
+    const ppp = document.querySelector(".result p");
     if (player1.getWin() === true) {
+        player1Score++;
+        const score1 = document.querySelector(".left .score");
+        score1.textContent = `Score: ${player1Score}`;
+        winner.style.whiteSpace = "pre";
+        winner.textContent = player1.name + "  won!";
+        resultImage.src = filenameLeft;
+        resultGrid.style.backgroundColor = "#b4cd37"
+        resultGrid.style.border = "10px solid #f000d0"
+        resultGrid.style.color = "#f000d0";
+        ngb.style.backgroundColor = "#b4cd37"
+        rb.style.backgroundColor = "#b4cd37"
+        ngb.style.color = "#f000d0"
+        rb.style.color = "#f000d0"
+        ngb.style.border = "5px solid #f000d0";
+        rb.style.border = "5px solid #f000d0";
+        ppp.style.color = "#f000d0";
         return 'X WON';
     }
     else if (player2.getWin() === true) {
+        player2Score++;
+        const score2 = document.querySelector(".right .score");
+        score2.textContent = `Score: ${player2Score}`;
+        winner.style.whiteSpace = "pre";
+        winner.textContent = player2.name + "  won!";
+        resultImage.src = filenameRight;
+        resultGrid.style.backgroundColor = "#f000d0"
+        resultGrid.style.border = "10px solid #b4cd37"
+        resultGrid.style.color = "#b4cd37";
+        ngb.style.backgroundColor = "#f000d0"
+        rb.style.backgroundColor = "#f000d0"
+        ngb.style.color = "#b4cd37"
+        rb.style.color = "#b4cd37"
+        ngb.style.border = "5px solid #b4cd37";
+        rb.style.border = "5px solid #b4cd37";
+        ppp.style.color = "#b4cd37";
         return 'O WON';
     }
     else {
         if (getNumberOfFreeFields(gameBoard.getBoardArray()) === 0) {
+            player1Score++;
+            player2Score++;
+            const score1 = document.querySelector(".left .score");
+            score1.textContent = `Score: ${player1Score}`;
+            const score2 = document.querySelector(".right .score");
+            score2.textContent = `Score: ${player2Score}`;
+            winner.style.whiteSpace = "pre";
+            winner.textContent = "It's  a  draw!";
+            resultImage.src = "handshake.svg";
+            resultGrid.style.backgroundColor = "yellow"
+            resultGrid.style.border = "10px solid black"
+            resultGrid.style.color = "black";
+            ngb.style.backgroundColor = "yellow"
+            rb.style.backgroundColor = "yellow"
+            ngb.style.color = "black"
+            rb.style.color = "black"
+            ngb.style.border = "5px solid black";
+            rb.style.border = "5px solid black";
+            ppp.style.color = "black";
             setTimeout(() => {
                 grid0.style.transition = "background-color 2s";
                 grid0P.style.transition = "transform 2s color 2s";
@@ -310,7 +372,6 @@ function movePlayer(player) {
             const div = document.querySelector(string2);
             const field = document.querySelector(string);
             if (gameBoard.getBoardArray()[index] !== '-') {
-                div.classList.add("mistake");
                 reject();
                 gridNow.removeEventListener('click', eventListener);
             }
@@ -349,6 +410,8 @@ const leftIcons = document.querySelectorAll(".left-menu .icon-choice img");
 const rightIcons = document.querySelectorAll(".right-menu .icon-choice img");
 const start = document.querySelector(".start-menu");
 const mainContent = document.querySelector(".content");
+let filenameLeft = "otter-pink.svg";
+let filenameRight = "spider.svg";
 
 leftIcons.forEach(icon => icon.addEventListener("click", function(event) {
     leftIcons.forEach(icon => icon.style.border = "none");
@@ -360,6 +423,7 @@ leftIcons.forEach(icon => icon.addEventListener("click", function(event) {
         const src = event.target.src;
         const filename = src.substring(src.lastIndexOf('/') + 1).replace('.', '-pink.');
         leftImage.src = filename;
+        filenameLeft = filename;
     }
 }))
 
@@ -373,6 +437,7 @@ rightIcons.forEach(icon => icon.addEventListener("click", function(event) {
         const src = event.target.src;
         const filename = src.substring(src.lastIndexOf('/') + 1).split('-')[0] + '.svg';
         rightImage.src = filename;
+        filenameRight = filename;
     }
 }))
 
@@ -452,10 +517,15 @@ rightSubmit.addEventListener("click", function() {
 
 /* GAME PROCESS */
 
+let player1Score = 0;
+let player2Score = 0;
+const resultDiv = document.querySelector(".result");
+const gridContent = document.querySelector(".grid");
+
 function gameProcess() {
     /* initially dates*/
-    const player1 = createPlayer(leftInput.value, 'X', leftStatus);
-    const player2 = createPlayer(rightInput.value, 'O', rightStatus);
+    const player1 = createPlayer(leftInput.value, 'X', leftStatus, player1Score);
+    const player2 = createPlayer(rightInput.value, 'O', rightStatus, player2Score);
     console.log(player1);
     console.log(player2);
     const left = document.querySelector(".left");
@@ -469,6 +539,7 @@ function gameProcess() {
                     const index = getRandomNumber();
                     moveAI(index, player1);
                     xMove = false;
+                    console.log(gameBoard.getBoardArray());
                     playTurnAIvAI();
                 }, 500);
             } else {
@@ -476,11 +547,15 @@ function gameProcess() {
                     const index = getRandomNumber();
                     moveAI(index, player2);
                     xMove = true;
+                    console.log(gameBoard.getBoardArray());
                     playTurnAIvAI();
                 }, 500);
             }
         } else {
-            console.log(resultOfTheGame(player1, player2));
+            setTimeout(() => {
+                resultDiv.style.display = "flex";
+                gridContent.style.display = "none";
+            }, 2000);
         }
     }
 
@@ -493,7 +568,7 @@ function gameProcess() {
                     left.classList.remove("jumping");
                     playTurnPlayervAI();
                 }).catch(() => {
-                    playTurnPlayervPlayer();
+                    playTurnPlayervAI();
                 });
             } else {
                 setTimeout(() => {
@@ -504,7 +579,10 @@ function gameProcess() {
                 }, 500);
             }
         } else {
-            console.log(resultOfTheGame(player1, player2));
+            setTimeout(() => {
+                resultDiv.style.display = "flex";
+                gridContent.style.display = "none";
+            }, 2000);
         }
     }
 
@@ -524,11 +602,14 @@ function gameProcess() {
                     right.classList.remove("jumping");
                     playTurnAIvPlayer();
                 }).catch(() => {
-                    playTurnPlayervPlayer();
+                    playTurnAIvPlayer();
                 });
             }
         } else {
-            console.log(resultOfTheGame(player1, player2));
+            setTimeout(() => {
+                resultDiv.style.display = "flex";
+                gridContent.style.display = "none";
+            }, 2000);
         }
     }
 
@@ -554,7 +635,10 @@ function gameProcess() {
                 });
             }
         } else {
-            console.log(resultOfTheGame(player1, player2));
+            setTimeout(() => {
+                resultDiv.style.display = "flex";
+                gridContent.style.display = "none";
+            }, 2000);
         }
     }   
     
@@ -571,3 +655,64 @@ function gameProcess() {
         playTurnPlayervPlayer();
     }
 }
+
+/* NEW GAME FUNCTION */
+function newGameFunction() {
+    resultDiv.style.display = "none";
+    gridContent.style.display = "grid";
+    clearFields();
+    gameBoard.moves = 0;
+    gameBoard.resetArray();
+    gameProcess(); 
+}
+
+function resetScore() {
+    player1Score = 0;
+    player2Score = 0;
+    const leftScoreText = document.querySelector(".left .score");
+    const rightScoreText = document.querySelector(".right .score");
+    leftScoreText.textContent = "Score: 0";
+    rightScoreText.textContent = "Score: 0";
+    newGameFunction();
+}
+
+
+const newGame = document.querySelector(".new-game");
+newGame.addEventListener("click", function() {
+    resultDiv.style.display = "none";
+    gridContent.style.display = "grid";
+    newGameFunction();
+})
+
+const resetButton = document.querySelector(".reset-score");
+resetButton.addEventListener("click", function() {
+    resultDiv.style.display = "none";
+    gridContent.style.display = "grid";
+    resetScore();
+})
+
+function clearFields() {
+    const mainGrid = document.querySelector(".grid");
+    mainGrid.innerHTML = ''; 
+    for (let i = 0; i < 9; i++) {
+        const helpString = `grid-${i}`;
+        const helpDiv =  document.createElement("div");
+        const helpP = document.createElement("p");
+        helpDiv.style.display = "flex";
+        helpDiv.style.alignItems = "center";
+        helpDiv.style.justifyContent = "center";
+        helpDiv.style.fontSize = "160px";
+        helpDiv.style.color = "#b4cd37";
+        helpDiv.style.fontFamily = "'main-font', sans-serif";
+        helpDiv.style.overflow = "hidden";
+        helpDiv.style.backgroundColor = "#f000d0";
+        helpDiv.style.borderRadius = "15px";
+        helpP.style.transition = "transform 1s";
+        helpDiv.classList.add(helpString);
+        helpDiv.appendChild(helpP);
+        console.log(helpDiv);
+        mainGrid.appendChild(helpDiv);
+    }
+}
+
+

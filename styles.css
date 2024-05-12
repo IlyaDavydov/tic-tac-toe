@@ -77,6 +77,65 @@ body {
     border-radius: 20px;
 }
 
+/* result shown */
+.result {
+    display: none;
+    height: 400px;
+    width: 400px;
+    padding: 5px;
+    border: 10px solid #b4cd37;
+    border-radius: 20px;
+    background-color: #f000d0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.result p {
+    font-family: 'main-font', sans-serif;
+    font-size: 32px;
+    color: #b4cd37;
+}
+
+.new-game {
+    height: 50px;
+    width: 150px;
+    background-color: inherit;
+    border-radius: 20px;
+    border: 5px solid #b4cd37;
+    color: #b4cd37;
+    font-size: 24px;
+    font-family: 'main-font', sans-serif;
+}
+
+.new-game:hover, .reset-score:hover {
+    box-shadow: 1px 1px 5px black;
+}
+
+.reset-score {
+    height: 50px;
+    width: 150px;
+    background-color: inherit;
+    border-radius: 20px;
+    border: 5px solid #b4cd37;
+    color: #b4cd37;
+    font-size: 24px;
+    font-family: 'main-font', sans-serif;
+}
+
+.result .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.result img {
+    height: 200px;
+    width: 200px;
+    margin-bottom: 40px;
+}
+
 .grid div {
     display: flex;
     align-items: center;
@@ -94,6 +153,7 @@ body {
 .resize {
     transform: scale(0.6);
 }
+
 .content .grid div {
     background-color: #f000d0;
     border-radius: 15px;
@@ -103,7 +163,7 @@ body {
     transform: scale(0.9);
 }
 
-.content .left:hover, .content .right:hover, #logo:hover, #logo1:hover, #logo2:hover, #logo3:hover {
+.content .left:hover, .content .right:hover {
     transform: scale(1.2);
 }
 
