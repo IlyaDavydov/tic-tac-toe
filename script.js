@@ -76,7 +76,7 @@ function combination(player) {
             grid0P.style.color = "#f000d0";
             grid1P.style.color = "#f000d0";
             grid2P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[3] === marker && board[4] === marker && board[5] === marker) {
         player.setWin(true);
@@ -93,7 +93,7 @@ function combination(player) {
             grid3P.style.color = "#f000d0";
             grid4P.style.color = "#f000d0";
             grid5P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[6] === marker && board[7] === marker && board[8] === marker) {
         player.setWin(true);
@@ -110,7 +110,7 @@ function combination(player) {
             grid6P.style.color = "#f000d0";
             grid7P.style.color = "#f000d0";
             grid8P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[0] === marker && board[3] === marker && board[6] === marker) {
         player.setWin(true);
@@ -127,7 +127,7 @@ function combination(player) {
             grid0P.style.color = "#f000d0";
             grid3P.style.color = "#f000d0";
             grid6P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[1] === marker && board[4] === marker && board[7] === marker) {
         player.setWin(true);
@@ -144,7 +144,7 @@ function combination(player) {
             grid1P.style.color = "#f000d0";
             grid4P.style.color = "#f000d0";
             grid7P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[2] === marker && board[5] === marker && board[8] === marker) {
         player.setWin(true);
@@ -161,7 +161,7 @@ function combination(player) {
             grid2P.style.color = "#f000d0";
             grid5P.style.color = "#f000d0";
             grid8P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[0] === marker && board[4] === marker && board[8] === marker) {
         player.setWin(true);
@@ -178,7 +178,7 @@ function combination(player) {
             grid0P.style.color = "#f000d0";
             grid4P.style.color = "#f000d0";
             grid8P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
     if (board[6] === marker && board[4] === marker && board[2] === marker) {
         player.setWin(true);
@@ -195,7 +195,7 @@ function combination(player) {
             grid6P.style.color = "#f000d0";
             grid4P.style.color = "#f000d0";
             grid2P.style.color = "#f000d0";
-        }, 2000);
+        }, 500);
     }
 }
 
@@ -265,7 +265,7 @@ const resultOfTheGame = (player1, player2) => {
                 grid8P.style.transition = "transform 2s color 2s";
                 grid8P.style.color = "#f000d0";
                 grid8.style.backgroundColor = "yellow";
-            }, 100);
+            }, 500);
             return 'DRAW';
         }
         else {
@@ -306,12 +306,21 @@ function movePlayer(player) {
         const eventListener = (event) => {
             const index = event.target.className.substring(5, 6);
             const string = `.grid-${index} p`;
+            const string2 = `.grid-${index}`;
+            const div = document.querySelector(string2);
             const field = document.querySelector(string);
-            field.textContent = player.marker;
-            resizeElement(field);
-            gameBoard.changeBoardArray(index, player.marker);
-            resolve();
-            gridNow.removeEventListener('click', eventListener);
+            if (gameBoard.getBoardArray()[index] !== '-') {
+                div.classList.add("mistake");
+                reject();
+                gridNow.removeEventListener('click', eventListener);
+            }
+            else {
+                field.textContent = player.marker;
+                resizeElement(field);
+                gameBoard.changeBoardArray(index, player.marker);
+                resolve();
+                gridNow.removeEventListener('click', eventListener);
+            }
         };
         gridNow.addEventListener('click', eventListener);
     });
@@ -319,15 +328,136 @@ function movePlayer(player) {
         if (combination(player)) {
             player.setWin(true);
         } 
+    }).catch(() => {
+
     });
     return eventPromise;
 }
 
+/* TEST FUNCTION */
+function getRandomNumber() {
+    return Math.floor(Math.random() * 9);
+}
+
+/* OTHER FUNCTIONS */
+function resizeElement(element) {
+    element.classList.add('resize'); 
+}
+
+/* START MENU */
+const leftIcons = document.querySelectorAll(".left-menu .icon-choice img");
+const rightIcons = document.querySelectorAll(".right-menu .icon-choice img");
+const start = document.querySelector(".start-menu");
+const mainContent = document.querySelector(".content");
+
+leftIcons.forEach(icon => icon.addEventListener("click", function(event) {
+    leftIcons.forEach(icon => icon.style.border = "none");
+    event.target.style.border = "5px solid #b4cd37";
+    event.target.style.borderRadius = "20px";
+    event.target.style.padding = "4px";
+    const leftImage = document.querySelector(".left img");
+    if (event.target.tagName === 'IMG') {
+        const src = event.target.src;
+        const filename = src.substring(src.lastIndexOf('/') + 1).replace('.', '-pink.');
+        leftImage.src = filename;
+    }
+}))
+
+rightIcons.forEach(icon => icon.addEventListener("click", function(event) {
+    rightIcons.forEach(icon => icon.style.border = "none");
+    event.target.style.border = "5px solid #f000d0";
+    event.target.style.borderRadius = "20px";
+    event.target.style.padding = "4px";
+    const rightImage = document.querySelector(".right img");
+    if (event.target.tagName === 'IMG') {
+        const src = event.target.src;
+        const filename = src.substring(src.lastIndexOf('/') + 1).split('-')[0] + '.svg';
+        rightImage.src = filename;
+    }
+}))
+
+let leftStatus = "Player";
+let rightStatus = "Player";
+const leftAIButton = document.querySelector(".left-menu .AIButton");
+const rightAIButton = document.querySelector(".right-menu .AIButton");
+const leftPlayerButton = document.querySelector(".left-menu .PlayerButton");
+const rightPlayerButton = document.querySelector(".right-menu .PlayerButton");
+
+leftAIButton.addEventListener("click", function() {
+    leftStatus = "AI";
+    leftAIButton.style.border = "4px solid #f000d0";
+    leftPlayerButton.style.border = "none"
+})
+
+rightAIButton.addEventListener("click", function() {
+    rightStatus = "AI";
+    rightAIButton.style.border = "4px solid #b4cd37";
+    rightPlayerButton.style.border = "none"
+})
+
+leftPlayerButton.addEventListener("click", function() {
+    leftStatus = "Player";
+    leftPlayerButton.style.border = "4px solid #f000d0";
+    leftAIButton.style.border = "none"
+})
+
+rightPlayerButton.addEventListener("click", function() {
+    rightStatus = "Player";
+    rightPlayerButton.style.border = "4px solid #b4cd37";
+    rightAIButton.style.border = "none"
+})
+
+const leftSubmit = document.querySelector(".left-menu .submit");
+const rightSubmit = document.querySelector(".right-menu .submit");
+const leftInput = document.querySelector(".left-menu input");
+const rightInput = document.querySelector(".right-menu input");
+const leftType = document.querySelector(".left-menu .type");
+const rightType = document.querySelector(".right-menu .type")
+const leftUsername = document.querySelector(".left .username");
+const rightUsername = document.querySelector(".right .username");
+ 
+let validLeft = 0;
+leftSubmit.addEventListener("click", function() {
+    if (leftInput.value.length < 1) {
+        leftType.style.border = "10px solid red";
+    }
+    else {
+        validLeft = 1;
+        leftType.style.border = "10px solid #f000d0";
+        leftUsername.textContent = leftInput.value;
+    }
+    if (validLeft === 1 && validRight === 1) {
+        start.style.display = "none";
+        mainContent.style.display = "flex";
+        gameProcess();
+    }
+})
+
+let validRight = 0;
+rightSubmit.addEventListener("click", function() {
+    if (rightInput.value.length < 1) {
+        rightType.style.border = "10px solid red";
+    }
+    else {
+        validRight = 1;
+        rightType.style.border = "10px solid #b4cd37";
+        rightUsername.textContent = rightInput.value;
+    }
+    if (validLeft === 1 && validRight === 1) {
+        start.style.display = "none";
+        mainContent.style.display = "flex";
+        gameProcess();
+    }
+})
+
 /* GAME PROCESS */
+
 function gameProcess() {
     /* initially dates*/
-    const player1 = createPlayer('Hulk', 'X', 'Player');
-    const player2 = createPlayer('Danny', 'O', 'Player');
+    const player1 = createPlayer(leftInput.value, 'X', leftStatus);
+    const player2 = createPlayer(rightInput.value, 'O', rightStatus);
+    console.log(player1);
+    console.log(player2);
     const left = document.querySelector(".left");
     const right = document.querySelector(".right");
     let xMove = true;
@@ -353,33 +483,17 @@ function gameProcess() {
             console.log(resultOfTheGame(player1, player2));
         }
     }
-    
-    function playTurnPlayervAI() {
-        if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
-            if (xMove) {
-                movePlayer(player1).then(() => {
-                    xMove = false;
-                    playTurnPlayervAI();
-                });
-            } else {
-                setTimeout(() => {
-                    const index = getRandomNumber();
-                    moveAI(index, player2);
-                    xMove = true;
-                    playTurnPlayervAI();
-                }, 500);
-            }
-        } else {
-            console.log(resultOfTheGame(player1, player2));
-        }
-    }
 
     function playTurnPlayervAI() {
         if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
             if (xMove) {
+                left.classList.add("jumping");
                 movePlayer(player1).then(() => {
                     xMove = false;
+                    left.classList.remove("jumping");
                     playTurnPlayervAI();
+                }).catch(() => {
+                    playTurnPlayervPlayer();
                 });
             } else {
                 setTimeout(() => {
@@ -404,9 +518,13 @@ function gameProcess() {
                     playTurnAIvPlayer();
                 }, 500);
             } else {
+                right.classList.add("jumping");
                 movePlayer(player2).then(() => {
                     xMove = true;
+                    right.classList.remove("jumping");
                     playTurnAIvPlayer();
+                }).catch(() => {
+                    playTurnPlayervPlayer();
                 });
             }
         } else {
@@ -417,22 +535,28 @@ function gameProcess() {
     function playTurnPlayervPlayer() {
         if (resultOfTheGame(player1, player2) === "KEEP PLAYING") {
             if (xMove) {
+                left.classList.add("jumping");
                 movePlayer(player1).then(() => {
                     xMove = false;
+                    left.classList.remove("jumping");
+                    playTurnPlayervPlayer();
+                }).catch(() => {
                     playTurnPlayervPlayer();
                 });
             } else {
+                right.classList.add("jumping");
                 movePlayer(player2).then(() => {
                     xMove = true;
+                    right.classList.remove("jumping");
+                    playTurnPlayervPlayer();
+                }).catch(() => {
                     playTurnPlayervPlayer();
                 });
             }
         } else {
             console.log(resultOfTheGame(player1, player2));
         }
-    }
-    
-       
+    }   
     
     if (player1.type === "AI" && player2.type === "AI") {
         playTurnAIvAI();
@@ -446,16 +570,4 @@ function gameProcess() {
     else if (player1.type === "Player" && player2.type === "Player") {
         playTurnPlayervPlayer();
     }
-}
-
-console.log(gameProcess());
-
-/* TEST FUNCTION */
-function getRandomNumber() {
-    return Math.floor(Math.random() * 9);
-}
-
-/* OTHER FUNCTIONS */
-function resizeElement(element) {
-    element.classList.add('resize'); 
 }

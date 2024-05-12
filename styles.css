@@ -28,8 +28,8 @@ body {
     height: 200px;
     width: 200px;
     position: absolute;
-    left: 18%;
-    top: 1%;
+    left: 15%;
+    top: -1%;
 }
 
 #logo1, #logo2, #logo3 {
@@ -43,25 +43,25 @@ body {
 }
 
 #logo1 {
-    left: 32%;
-    top: -23%;
+    left: 29%;
+    top: -26%;
 }
 
 #logo2 {
-    left: 50%;
-    top: -21%;
+    left: 47%;
+    top: -24%;
 }
 
 #logo3 {
-    left: 69%;
-    top: -19%;
+    left: 66%;
+    top: -23%;
 }
 
 /* MAIN CONTENT */
 
 .content {
     margin-top: 200px;
-    display: flex;
+    display: none;
     align-items: center;
 }
 
@@ -197,7 +197,7 @@ body {
   }
   
   .jumping {
-    animation: jump 0.5s infinite; 
+    animation: jump 1s infinite; 
   }
 
   /* MISTAKE ANIMATION */
@@ -215,5 +215,208 @@ body {
 }
 
 .mistake {
-    animation: changeColor 1s forwards;
+    animation: changeColor 1s none;
+}
+
+/* START-MENU */
+
+.start-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 250px;
+    width: 100%;
+    height: 100%;
+    font-family: 'main-font', sans-serif;
+    font-size: 32px;
+}
+
+
+.left-menu, .right-menu {
+    margin-top: 190px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}  
+
+.left-menu .icon-choice {
+    background-color: #f000d0;
+    border: 10px solid #b4cd37;
+}
+
+.right-menu .icon-choice {
+    background-color: #b4cd37;
+    border: 10px solid #f000d0;
+}
+
+.icon-choice {
+    display: grid;
+    height: 300px;
+    width: 400px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px;
+    border-radius: 20px;
+    justify-items: center;
+    align-items: center;
+}
+
+.type, .submit {
+    border-radius: 20px;
+    height: 50px; 
+    font-size: 32px;
+    font-family: 'main-font', sans-serif;
+}
+
+.submit {
+    box-sizing: content-box;
+}
+
+.submit:hover {
+    transform: scale(1.2);
+}
+
+.left-menu .type, .left-menu .submit {
+    background-color: #b4cd37;
+    border: 10px solid #f000d0;
+    color: #f000d0;
+}
+
+.right-menu .type, .right-menu .submit {
+    background-color: #f000d0;
+    border: 10px solid #b4cd37;
+    color: #b4cd37;
+}
+
+.icon-choice img {
+    height: 70px;
+    width: 70px;
+}
+
+.icon-choice img:hover {
+    transform: scale(1.2);
+}
+
+.type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    height: 55%;
+    width: 60%;
+    border-radius: 10px;
+    margin-left: 2px;
+}
+
+.player {
+    height: 55%;
+    width: 35%;
+    border-radius: 10px;
+    margin-right: 2px;
+    display: flex;
+    align-items: center;
+}
+
+.AIButton, .PlayerButton {
+    border-radius: 10px;
+    height: 65%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.AIButton {
+    margin-left: 5px;
+    width: 30%;
+    background-color: inherit;
+    border: none;
+    font-family: 'main-font', sans-serif;
+    font-size: 14px;
+    box-sizing: content-box;
+}
+
+.left-menu .AIButton {
+    color: #f000d0;
+}
+
+.right-menu .AIButton {
+    color: #b4cd37;
+}
+
+.left-menu .PlayerButton {
+    color: #b4cd37;
+}
+
+.right-menu .PlayerButton {
+    color: #f000d0;
+}
+
+.PlayerButton {
+    background-color: inherit;
+    margin-left: 5px;
+    width: 60%;
+    box-sizing: content-box;
+    font-family: 'main-font', sans-serif;
+    font-size: 14px;
+}
+
+.left-menu .PlayerButton {
+    color: #f000d0;
+    border: 4px solid #f000d0;
+}
+
+.right-menu .PlayerButton {
+    color: #b4cd37;
+    border: 4px solid #b4cd37;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.name input {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: inherit;
+    border: none;
+    font-family: 'main-font', sans-serif;
+    font-size: 25px;
+}
+
+.name input::placeholder {
+    font-family: 'main-font', sans-serif;
+    font-size: 25px;
+}
+
+.left-menu .name input, .left-menu .name input::placeholder {
+    color: #f000d0;
+}
+
+.right-menu .name input, .right-menu .name input::placeholder {
+    color: #b4cd37;
+}
+
+button, input {
+    outline: none;
+}
+
+.otter {
+    border: 4px solid #b4cd37;
+    border-radius: 20px;
+    padding: 4px;
+}
+
+.spider {
+    border: 4px solid #f000d0;
+    border-radius: 20px;
+    padding: 4px;
 }
