@@ -1,0 +1,13 @@
+As of May 13th, this is my most interesting project, in which I:
+Firstly, further solidified my knowledge in HTML, CSS, and JS.
+Learned new coding methods such as factory functions and the module pattern.
+Faced the challenge that this project was asynchronous (moves are made sequentially, etc.), and I had to grasp the topic of Promises in JavaScript.
+
+Functionality:
+- Various design solutions, such as loading animation or indicating the turn order.
+- 4 game modes: AIvAI, Player v AI, AI v Player, Player v Player.
+- Ability to choose name, icon, and so on (remember to click select for both players).
+- Option to start a new game and reset scores.
+- Return to the main menu (banner on the left when announcing the game result).
+
+Visualisation: https://ilyadavydov.github.io/tic-tac-toe/
