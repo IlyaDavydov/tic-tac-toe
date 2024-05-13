@@ -30,6 +30,8 @@ body {
     position: absolute;
     left: 15%;
     top: -1%;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
 #logo1, #logo2, #logo3 {
@@ -39,7 +41,9 @@ body {
     -webkit-text-stroke-width: 10px; 
     -webkit-text-stroke-color: #f000d0; 
     position: absolute; 
-    font-size: 200px; 
+    font-size: 200px;
+    opacity: 0;
+    transition: opacity 1s; 
 }
 
 #logo1 {
@@ -224,9 +228,11 @@ body {
     left: -5%;
     transform: rotate(-135deg);
     z-index: -1;
-    border: 10px solid #f000d0;
+    border: none;
     border-radius: 20px;
     padding: 10px;
+    opacity: 0;
+    transition: opacity 1s, border 1s;
 }
 
 .background-2 {
@@ -237,9 +243,11 @@ body {
     top: -5%;
     transform: rotate(45deg);
     z-index: -1;
-    border: 10px solid #b4cd37;
     border-radius: 20px;
     padding: 10px;
+    opacity: 0;
+    border: none;
+    transition: opacity 1s, border 1s;
 }
 
 /* JUMP ANIMATION */
@@ -289,6 +297,8 @@ body {
     height: 100%;
     font-family: 'main-font', sans-serif;
     font-size: 32px;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
 
@@ -480,3 +490,27 @@ button, input {
     border-radius: 20px;
     padding: 4px;
 }
+
+/* BACK TO START */
+
+.back {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: #f000d0;
+    border-radius: 20px;
+    border: 10px solid #b4cd37;
+    height: 50px;
+    width: 150px;
+    font-family: 'main-font', sans-serif;
+    color: #b4cd37;
+    font-size: 16px;
+    position: absolute;
+    top: 20%;
+    left: -5.5%;
+}
+
+.back:hover {
+    transform: scale(1.5) translateX(60px);
+}
+

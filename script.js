@@ -480,6 +480,7 @@ const leftType = document.querySelector(".left-menu .type");
 const rightType = document.querySelector(".right-menu .type")
 const leftUsername = document.querySelector(".left .username");
 const rightUsername = document.querySelector(".right .username");
+const backButton = document.querySelector(".back");
  
 let validLeft = 0;
 leftSubmit.addEventListener("click", function() {
@@ -555,6 +556,7 @@ function gameProcess() {
             setTimeout(() => {
                 resultDiv.style.display = "flex";
                 gridContent.style.display = "none";
+                backButton.style.display = "flex";
             }, 2000);
         }
     }
@@ -582,6 +584,7 @@ function gameProcess() {
             setTimeout(() => {
                 resultDiv.style.display = "flex";
                 gridContent.style.display = "none";
+                backButton.style.display = "flex";
             }, 2000);
         }
     }
@@ -609,6 +612,7 @@ function gameProcess() {
             setTimeout(() => {
                 resultDiv.style.display = "flex";
                 gridContent.style.display = "none";
+                backButton.style.display = "flex";
             }, 2000);
         }
     }
@@ -638,6 +642,7 @@ function gameProcess() {
             setTimeout(() => {
                 resultDiv.style.display = "flex";
                 gridContent.style.display = "none";
+                backButton.style.display = "flex";
             }, 2000);
         }
     }   
@@ -681,6 +686,7 @@ const newGame = document.querySelector(".new-game");
 newGame.addEventListener("click", function() {
     resultDiv.style.display = "none";
     gridContent.style.display = "grid";
+    backButton.style.display = "none";
     newGameFunction();
 })
 
@@ -688,6 +694,7 @@ const resetButton = document.querySelector(".reset-score");
 resetButton.addEventListener("click", function() {
     resultDiv.style.display = "none";
     gridContent.style.display = "grid";
+    backButton.style.display = "none";
     resetScore();
 })
 
@@ -715,4 +722,54 @@ function clearFields() {
     }
 }
 
+/*BACK TO START*/
+const startMenu = document.querySelector(".start-menu");
+const ourContent = document.querySelector(".content");
+const ourResult = document.querySelector(".result");
+const ourGame = document.querySelector(".content .grid");
+backButton.addEventListener("click", function() {
+    validLeft = 0;
+    validRight = 0;
+    clearFields();
+    player1Score = 0;
+    player2Score = 0;
+    gameBoard.moves = 0;
+    gameBoard.resetArray();
+    const leftScoreText = document.querySelector(".left .score");
+    const rightScoreText = document.querySelector(".right .score");
+    leftScoreText.textContent = "Score: 0";
+    rightScoreText.textContent = "Score: 0";
+    startMenu.style.display = "flex";
+    ourResult.style.display = "none";
+    ourGame.style.display = "grid";
+    ourContent.style.display = "none";
+    backButton.style.display = "none";
+})
 
+/* LOADING ANIMATION */
+
+document.addEventListener("DOMContentLoaded", function() {
+    const gameLogo = document.querySelector("#logo");
+    const tic = document.querySelector("#logo1");
+    const tac = document.querySelector("#logo2");
+    const toe = document.querySelector("#logo3");
+    const background1 = document.querySelector(".background");
+    const background2 = document.querySelector(".background-2");
+    const startContent = document.querySelector(".start-menu");
+    
+    setTimeout(function() {
+        gameLogo.style.opacity = "1";
+        tic.style.opacity = "1";
+        background1.style.opacity = "1";
+        background2.style.opacity = "1";
+    }, 1000);
+    setTimeout(function() {
+        tac.style.opacity = "1";
+        background1.style.border = "10px solid #f000d0";
+        background2.style.border = "10px solid #b4cd37";
+    }, 2000);
+    setTimeout(function() {
+        toe.style.opacity = "1";
+        startContent.style.opacity = "1";
+    }, 3000);
+});
